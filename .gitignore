@@ -1,0 +1,9 @@
+data/*.tsv
+data/*.csv
+data/*.txt
+.idea
+.ipynb_checkpoints
+.jupyter
+.virtual_documents
+anaconda_projects
+__pycache__
