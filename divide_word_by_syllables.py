@@ -27,13 +27,13 @@ fake = Faker()
 # word = fake.word()
 # -
 
-word = 'research'
+word = 'their'
 
 # + active=""
 # syllables = [*wrap(word, 2), *wrap(word, 3)]
 # -
 
-syllables = ['in','on','ou','ne','th','ar','ce','es','ng','re','ti','ing','ion','an','ed','en','er','im','io','me','ro','ss','ta']
+syllables = ['he', 'as', 'pe', 'et', 'nd', 'ni', 'ia', 'to', 'na', 'lo', 'sh', 'us', 'pr', 'ce', 'ho', 'mi', 'ur', 'bl', 'th']
 
 
 # + editable=true raw_mimetype="" slideshow={"slide_type": ""} active=""
@@ -59,13 +59,20 @@ def sortByLength(syllables: list[str]) -> list[str]:
 # ### Syllables in word
 
 def filterSyllablesByWord(word: str, syllables: list[str]) -> Generator[str, None, None]:
-    filteredSyllables = (syllable for syllable in syllables if re.search(syllable, word, re.IGNORECASE))
-    
-    for syllable in filteredSyllables:
-        word = re.sub(syllable, ' ' * len(syllable), word, flags=re.IGNORECASE)
-        yield syllable
+    filteredSyllables = [syllable for syllable in syllables if re.search(syllable, word, re.IGNORECASE)]
+
+    leftover = word
+    while len(leftover) > 0:
+        syllable = next((syllable for syllable in filteredSyllables if re.search(rf'^{syllable}.*', leftover, re.IGNORECASE)), '')
+        
+        if len(syllable):
+            word = re.sub(syllable, ' ' * len(syllable), word, flags=re.IGNORECASE)
+            leftover = leftover[len(syllable):]
+            yield syllable
+        else:
+            leftover = leftover[1:]
     else:
-        yield from re.findall(r'\w+', word, re.IGNORECASE)
+        yield from re.findall(r'\w+', word, re.IGNORECASE)        
 
 
 # + active=""
@@ -144,9 +151,9 @@ def divideBy(word: str, syllables: Iterator[str]) -> list[str]:
 
     return [syllable for (_, syllable) in sortedAndFilteredIndexesSyllablesPairs]
 
-
-filteredSyllables = filter(lambda syllable: len(syllable) >= 2, sortByLength(syllables))
-dividedBySyllables = divideBy(word, filteredSyllables)
+# + active=""
+# filteredSyllables = filter(lambda syllable: len(syllable) >= 2, sortByLength(syllables))
+# dividedBySyllables = divideBy(word, filteredSyllables)
 
 # + active=""
 # print(dividedBySyllables)

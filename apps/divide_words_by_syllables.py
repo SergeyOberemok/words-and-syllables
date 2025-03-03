@@ -7,6 +7,10 @@ from utilities.files import writeCSV
 
 def divideWordsBySyllables(words, syllables) -> Generator[tuple[str, str], None, None]:
     for word in words:
+        if len(word) <= 3:
+            yield word, word
+            continue
+
         yield word, '-'.join(divideBy(word, syllables))
 
 

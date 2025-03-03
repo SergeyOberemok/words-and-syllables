@@ -6,7 +6,7 @@ from utilities.files import writeCSV
 
 
 def getSyllablesFrequenciesFromWords(words: list[str]) -> dict[str, int]:
-    lengthsAndPercents = [(5, 30), (4, 15), (3, 50), (2, 50)]
+    lengthsAndPercents = [(5, 30), (4, 15), (3, 15), (2, 20)]
     syllablesFrequencies = dict()
 
     for syllableLength, minPercentage in lengthsAndPercents:
@@ -15,6 +15,7 @@ def getSyllablesFrequenciesFromWords(words: list[str]) -> dict[str, int]:
         syllablesFrequencies |= temp
 
     return syllablesFrequencies
+
 
 def main():
     words = readDataFrame('../data/lemmas_uniques_60.csv', lambda row: row['lemma'])
